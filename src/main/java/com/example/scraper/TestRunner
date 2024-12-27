@@ -1,0 +1,23 @@
+package com.example.scraper;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.Parameters;
+
+public class TestRunner {
+
+    @Test
+    @Parameters("browser")
+    public void runTest(String browser) {
+        try {
+            WebDriver driver = BrowserStackTest.getDriver(browser);
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+            
+            ElPaisScraper.handlePopupIfPresent(driver, wait);
+            ElPaisScraper.navigateToOpinionSection(driver, wait);
+            ElPaisScraper.fetchAndProcessArticles(driver, wait);
+            
+        } catch (Exception e) {
+            System.out.println("Error during test execution on " + browser + ": " + e.getMessage());
+        }
+    }
+}

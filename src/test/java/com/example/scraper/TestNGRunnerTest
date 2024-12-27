@@ -1,0 +1,12 @@
+package com.example.scraper;
+
+import org.testng.TestNG;
+import java.util.Arrays;
+
+public class TestNGRunnerTest {
+    public static void main(String[] args) {
+        TestNG testng = new TestNG();
+        testng.setTestSuites(Arrays.asList("src/test/resources/testng.xml"));
+        testng.run();
+    }
+}

@@ -1,0 +1,70 @@
+package com.example.scraper;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.remote.*;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.safari.SafariOptions;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+public class BrowserStackTest {
+
+    private static final String USERNAME = "kajanthasnigdhan_rLcyPv";
+    private static final String ACCESS_KEY = "jRpJgP6s5yq5mugq37xd";
+
+    public static WebDriver getDriver(String browser) throws Exception {
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        switch (browser.toLowerCase()) {
+            case "chrome":
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setCapability("browserName", "chrome");
+                chromeOptions.setCapability("browser_version", "latest");
+                chromeOptions.setCapability("os", "Windows");
+                chromeOptions.setCapability("os_version", "10");
+                capabilities = chromeOptions;
+                break;
+
+            case "firefox":
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.setCapability("browserName", "firefox");
+                firefoxOptions.setCapability("browser_version", "latest");
+                firefoxOptions.setCapability("os", "Windows");
+                firefoxOptions.setCapability("os_version", "10");
+                capabilities = firefoxOptions;
+                break;
+
+            case "safari":
+                SafariOptions safariOptions = new SafariOptions();
+                safariOptions.setCapability("browserName", "safari");
+                safariOptions.setCapability("os", "macOS");
+                safariOptions.setCapability("os_version", "Big Sur");
+                capabilities = safariOptions;
+                break;
+
+            default:
+                throw new Exception("Browser not supported.");
+        }
+
+        String browserStackUrl = "https://" + USERNAME + ":" + ACCESS_KEY + "@hub-cloud.browserstack.com/wd/hub";
+        return new RemoteWebDriver(new URL(browserStackUrl), capabilities);
+    }
+
+    public static void main(String[] args) {
+        String[] browsers = {"chrome", "firefox", "safari"};
+        for (String browser : browsers) {
+            try (WebDriver driver = getDriver(browser)) {
+                // Open the El País website and perform your scraping or testing
+                driver.get("https://elpais.com/");
+                System.out.println("Navigated to El País website on BrowserStack with browser: " + browser);
+
+                // Perform scraping or testing as needed, you can call ElPaisScraper's methods here
+
+            } catch (Exception e) {
+                System.out.println("Error during BrowserStack execution with " + browser + ": " + e.getMessage());
+            }
+        }
+    }
+}

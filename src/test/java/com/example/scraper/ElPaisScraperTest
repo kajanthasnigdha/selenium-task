@@ -1,0 +1,45 @@
+package com.example.scraper;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class ElPaisScraperTest {
+
+    private WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        System.setProperty("webdriver.chrome.driver", "C:\\path\\to\\chromedriver.exe");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // Running headless for testing
+        driver = new ChromeDriver(options);
+    }
+
+    @Test
+    public void testNavigateToOpinionSection() {
+        ElPaisScraper scraper = new ElPaisScraper();
+        scraper.navigateToOpinionSection(driver);  // Assuming the method takes WebDriver as argument
+        // Assert the expected page URL or something else relevant
+        Assert.assertTrue(driver.getCurrentUrl().contains("/opinion/"));
+    }
+
+    @Test
+    public void testTranslateText() {
+        String translatedText = ElPaisScraper.translateText("Hello World");
+        Assert.assertNotNull(translatedText);
+        Assert.assertTrue(translatedText.contains("Hola Mundo"));
+    }
+
+    // Add more tests for other methods in ElPaisScraper
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}

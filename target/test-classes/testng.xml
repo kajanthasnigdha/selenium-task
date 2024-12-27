@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="ElPais Scraper Suite">
+    <test name="ElPais Scraper Tests">
+        <classes>
+            <class name="com.example.scraper.ElPaisScraperTest"/>
+            <class name="com.example.scraper.BrowserStackTestNGTest"/>
+             <class name="com.example.scraper.TestNGRunnerTest"/>
+        </classes>
+    </test>
+</suite>

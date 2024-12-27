@@ -1,0 +1,52 @@
+package com.example.scraper;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.net.URL;
+import java.net.MalformedURLException;
+
+public class BrowserStackTestNGTest {
+
+    private WebDriver driver;
+
+    @BeforeClass
+    public void setUp() throws MalformedURLException {
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability("browser", "Chrome");
+        caps.setCapability("browser_version", "latest");
+        caps.setCapability("os", "Windows");
+        caps.setCapability("os_version", "10");
+        caps.setCapability("name", "ElPais Scraper Test");
+
+        // BrowserStack credentials
+        String username = "your_browserstack_username";
+        String accessKey = "your_browserstack_access_key";
+
+        // Setting up the remote WebDriver (BrowserStack)
+        driver = new RemoteWebDriver(
+                new URL("https://" + username + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub"),
+                caps
+        );
+    }
+
+    @Test
+    public void testBrowserStackConnection() {
+        driver.get("https://elpais.com/");
+        Assert.assertTrue(driver.getTitle().contains("El País"));
+    }
+
+    // Add other tests specific to BrowserStack or WebDriver features
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
